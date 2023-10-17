@@ -1,0 +1,30 @@
+.wrapper {
+  width: 50%;
+  margin: 0 auto;
+  padding: 24px 0;
+  font-family: Roboto, sans-serif;
+
+  h2,
+  h6 {
+    display: flex;
+  }
+
+  border-bottom: solid 1px darkgray;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 12px;
+  margin-top: 24px;
+
+  &__label {
+    display: flex;
+  }
+
+  &__submit {
+    margin-top: 24px;
+  }
+
+}
