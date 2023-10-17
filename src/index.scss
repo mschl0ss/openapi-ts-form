@@ -27,4 +27,10 @@
     margin-top: 24px;
   }
 
+  &__error {
+    display: flex;
+    font-size: .8em;
+    color: red;
+  }
+
 }

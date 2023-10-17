@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material"
 import { ArrayProperty, BaseProperty, FieldTypeKey, OpenApiForm, PropertyCollection, StringProperty, isSpecialFieldType } from "../types"
 import { Fragment, useCallback } from "react";
-import { Field, Form, Formik, FormikProps } from "formik";
+import { Field, Form, Formik, FormikErrors, FormikProps, FormikTouched } from "formik";
 
 export default function DynamicForm({ form }: { form: OpenApiForm }): JSX.Element {
     const { description: title, properties } = form;
@@ -60,28 +60,45 @@ export default function DynamicForm({ form }: { form: OpenApiForm }): JSX.Elemen
      * @param baseProperty the property to map to an input
      * @returns a single element with an input and optionally a label as children
      */
-    const getInputByType = (fieldType: FieldTypeKey, baseProperty: BaseProperty): JSX.Element => {
+    const getInputByType = (fieldType: FieldTypeKey, baseProperty: BaseProperty, errors: FormikErrors<any>, touched: FormikTouched<any>): JSX.Element => {
         const Label = () => <label className="form__label" htmlFor={baseProperty.description}>{baseProperty.description}</label>;
+
+        const validateField = (value: any) => {
+            return !value ? "Required" : undefined;
+        }
+        const Error = () => (
+            <div className='form__error'>
+                {errors[baseProperty.description] && touched[baseProperty.description] && <div><>{errors[baseProperty.description]}</></div>}
+            </div>);
 
         switch (fieldType) {
             case 'select':
                 return (
                     <>
                         <Label />
-                        <Field as="select" name={baseProperty.description}>
+                        <Field as="select" name={baseProperty.description} validate={validateField}>
                             {(baseProperty as ArrayProperty).items.map(item => (
                                 // The spec may support deeply nested arrays, but I do not at this time. Sorry.
                                 item instanceof Array ? null : <option value={item.description}>{item.description}</option>
                             ))}
                         </Field>
+                        <Error />
                     </>
                 );
             case 'textInput':
                 const inputType = (baseProperty as StringProperty).format === 'date' ? 'date' : 'text';
                 // if ((baseProperty as StringProperty).format === 'date')
-                return <><Label /><Field as="input" type={inputType} name={baseProperty.description} /></>;
+                return (
+                    <>
+                        <Label /><Field as="input" type={inputType} name={baseProperty.description} validate={validateField} />
+                        <Error />
+                    </>);
             case 'textArea':
-                return <><Label /><Field as="textarea" name={baseProperty.description} /></>;
+                return (<>
+                    <Label />
+                    <Field as="textarea" name={baseProperty.description} validate={validateField} />
+                    <Error />
+                </>);
             case 'submitButton':
                 return <button type="submit" className="form__submit">{baseProperty.description}</button>;
             default:
@@ -92,14 +109,14 @@ export default function DynamicForm({ form }: { form: OpenApiForm }): JSX.Elemen
     /**
      * @returns Returns inputs mapped to their appropriate input type
      */
-    const getFormInputs = (): JSX.Element[] => {
+    const getFormInputs = (errors: FormikErrors<any>, touched: FormikTouched<any>): JSX.Element[] => {
         return Object
             .keys(getFormFields())
             .map(fieldType => {
                 return <Fragment key={fieldType}>
                     {getFormFields()[fieldType as FieldTypeKey].map(baseProperty => {
                         return <Fragment key={baseProperty.description}>
-                            {getInputByType(fieldType as FieldTypeKey, baseProperty)}
+                            {getInputByType(fieldType as FieldTypeKey, baseProperty, errors, touched)}
                         </Fragment>
                     })}
                 </Fragment>
@@ -123,9 +140,9 @@ export default function DynamicForm({ form }: { form: OpenApiForm }): JSX.Elemen
                     initialValues={getInitialValues()}
                     onSubmit={(values) => console.log(values)}
                 >
-                    {() => (
+                    {({ errors, touched }: FormikProps<any>) => (
                         <Form className="form">
-                            {getFormInputs()}
+                            {getFormInputs(errors, touched)}
                         </Form>
                     )}
                 </Formik>
