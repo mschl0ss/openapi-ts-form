@@ -110,7 +110,8 @@ export default function DynamicForm({ form }: { form: OpenApiForm }): JSX.Elemen
                     <Error />
                 </>);
             case "submitButton":
-                return <button type="submit" className="form__submit">{baseProperty.description}</button>;
+                const disabled = Object.values(errors).some(value => !!value) || !Object.values(touched).some(value => value === true);
+                return <button type="submit" className="form__submit" disabled={disabled}>{baseProperty.description}</button>;
             default:
                 return <></>
         }

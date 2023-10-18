@@ -1,46 +1,34 @@
-# Getting Started with Create React App
+# OpenAPI TS Dynamic FormBuilder
+This project is a response to the challenge to create a dynamic form builder that generates forms from a JSON payload.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+I used the [OpenAPI spec](https://swagger.io/docs/specification/about/) as a model for the JSON object.  This has the benefit of taking advantage of a pre-existing ecosystem of documentation, validation, and tools.  
 
-## Available Scripts
+# Summary of Requirements
 
-In the project directory, you can run:
+## Bad stuff BLUF
+Validation is janky and not well implemented.  Additionally, it's not incorporated into the OpenAPI TS schema. In the interest of sticking to the time frame requested I decided to leave it as is. In order to fix this I would
+* implement Yup validation
+* validate on the whole form instead of simply doing field level validation
+* add validation to the OpenAPI TS schema
 
-### `yarn start`
+## Validation
+_With the above section in mind, these validation requirements_ do _work in some limited, not production quality capacity_.
+ - [x] First & third fields are always required
+ - [x] Date field is conditionally required based on the select dropdown option value
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Requirements
+ - [x] JSON representation of the form fields and values _(see further notes below)_
+ - [x] React App renders the form(s)
+ - [x] Form contains required parts
+ - [x] Submit button disabled behavior (caveat: see 'Validation Rules' above)
+ - [x] On click submit logs values to the console
+ - [x] Some very basic SCSS applied
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Growing into a production ready app
+The benefit of using the Open API spec is the ease with which an endpoint that accepts a form could be implemented. The consumer would simply have to format the POST body with valid schema and our backend would be equipped to correctly handle it.  Additionally, the predictable nature of the spec would make building a GUI for creating and saving forms a more easily implemented epic from a technical perspective.
 
-### `yarn test`
+## Testing Plan
+Another casualty of the time limit, I would utilize Jest and `react-testing-library` to get code & branch coverage above acceptable thresholds (>95%).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Screenshot
+![Screenshot](image.png)
