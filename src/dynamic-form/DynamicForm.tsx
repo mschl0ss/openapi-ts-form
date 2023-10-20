@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material"
 import { ArrayProperty, BaseProperty, FieldTypeKey, OpenApiForm, PropertyCollection, StringProperty, isSpecialFieldType } from "../types/types"
 import { Fragment, useCallback } from "react";
-import { Field, Form, Formik, FormikErrors, FormikProps, FormikTouched } from "formik";
+import { Field, Form, Formik, FormikProps } from "formik";
 
 export default function DynamicForm({ form }: { form: OpenApiForm }): JSX.Element {
     const { description: title, properties } = form;
