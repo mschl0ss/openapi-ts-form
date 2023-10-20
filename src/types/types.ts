@@ -2,6 +2,11 @@
  * This is a TS interpretation of the standard Open API spec schema object
  * For more info, see https://swagger.io/docs/specification/data-models/
  */
+
+/**
+ * In OpenAPI vernacular, these are the types of properties that are valid
+ * For the purposes of this form, they represent the data type of the inputs
+ */
 type PropertyType = "string" | "array" | "enum";
 
 /**

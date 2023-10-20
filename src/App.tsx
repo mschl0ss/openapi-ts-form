@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import DynamicForm from './types/dynamic-form/DynamicForm';
+import { useEffect, useState } from 'react';
+import DynamicForm from './dynamic-form/DynamicForm';
 import { otherForm, payrollEnquiryForm } from './types/mockData';
 import { OpenApiForm } from './types/types';
 

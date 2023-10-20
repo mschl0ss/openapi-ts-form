@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material"
-import { ArrayProperty, BaseProperty, FieldTypeKey, OpenApiForm, PropertyCollection, StringProperty, isSpecialFieldType } from "../types"
+import { ArrayProperty, BaseProperty, FieldTypeKey, OpenApiForm, PropertyCollection, StringProperty, isSpecialFieldType } from "../types/types"
 import { Fragment, useCallback } from "react";
 import { Field, Form, Formik, FormikErrors, FormikProps, FormikTouched } from "formik";
 
